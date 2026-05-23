@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:GITHUB_PAT}",
+        "X-MCP-Toolsets": "repos,pull_requests"
+      }
+    }
+  },
+  "command": {
+    "ponme-al-dia": {
+      "description": "Resumen rapido del proyecto: contexto + ultimos registros del project log",
+      "template": "Dame un resumen ejecutivo del proyecto. Solo necesitas:\n\n1. Lee CONTEXT.md para el contexto general (stack, estado, pendientes)\n2. Lee las ultimas ~30 lineas de project-log-telegram-v1.md para los cambios mas recientes\n3. Lee el ultimo commit (git log -1 --oneline)\n\nCon eso, dame un resumen en maximo 8 lineas: en que punto esta, que se hizo recientemente, que queda pendiente. NADA de explorar archivos ni leer logs grandes. Solo esos 3 fuentes. Se conciso."
+    }
+  }
+}
