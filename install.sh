@@ -29,4 +29,15 @@ if ! command -v pass &>/dev/null && [ ! -f "$HOME/.secrets" ]; then
   echo "    echo 'export GEMINI_API_KEY=\"xxx\"' >> ~/.secrets"
 fi
 
+# --- Pass auto-push hook ---
+if [ -d "$HOME/.password-store/.git" ]; then
+  cat > "$HOME/.password-store/.git/hooks/post-commit" << 'HOOK'
+#!/bin/bash
+git push origin master 2>/dev/null &
+HOOK
+  chmod +x "$HOME/.password-store/.git/hooks/post-commit"
+fi
+
 echo "Dotfiles instalados. Ejecuta: source ~/.zshrc"
+echo ""
+echo "Sync manual desde cualquier maquina: ~/dotfiles/sync.sh"
