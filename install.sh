@@ -15,11 +15,18 @@ ln -sf "$DOTFILES/home/.local-env" "$HOME/.local/bin/env"
 mkdir -p "$HOME/.config/opencode"
 ln -sf "$DOTFILES/config/opencode/opencode.json" "$HOME/.config/opencode/opencode.json"
 
-# --- Reminder: secrets ---
-if [ ! -f "$HOME/.secrets" ]; then
-  echo "  Crea ~/.secrets con tus API keys (ver ejemplo abajo)"
-  echo "  echo 'export GITHUB_PAT=\"ghp_xxx\"' > ~/.secrets"
+# --- Fix git credential helper path per platform ---
+if command -v gh &>/dev/null; then
+  gh auth setup-git 2>/dev/null || true
 fi
 
-echo ""
+# --- Secrets reminder ---
+if ! command -v pass &>/dev/null && [ ! -f "$HOME/.secrets" ]; then
+  echo "  No se encontro pass ni ~/.secrets."
+  echo "  Crea ~/.secrets con tus API keys:"
+  echo "    echo 'export GITHUB_PAT=\"ghp_xxx\"' > ~/.secrets"
+  echo "    echo 'export DEEPSEEK_API_KEY=\"sk-xxx\"' >> ~/.secrets"
+  echo "    echo 'export GEMINI_API_KEY=\"xxx\"' >> ~/.secrets"
+fi
+
 echo "Dotfiles instalados. Ejecuta: source ~/.zshrc"
